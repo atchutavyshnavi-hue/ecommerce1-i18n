@@ -1,0 +1,12 @@
+<div class="products-page"><section class="products-header"><div>
+  <h1>{{ 'products.title' | translate }}</h1><p>{{ 'products.subtitle' | translate }}</p>
+</div><div class="search-box"><input type="text" [ngModel]="searchText()" (ngModelChange)="searchText.set($event)" [placeholder]="'products.search' | translate" /></div></section>
+<section class="filters"><button [class.active]="selectedCategory() === 'All'" (click)="selectedCategory.set('All')">{{ 'products.all' | translate }}</button>
+@for (category of categories().slice(1); track category) { <button [class.active]="selectedCategory() === category" (click)="selectedCategory.set(category)">{{ category }}</button> }</section>
+<section class="product-grid">@for (product of filteredProducts(); track product.id) {
+  <div class="product-card"><div class="image-container"><img [src]="product.image" [alt]="product.name" /><span class="rating">⭐ {{ product.rating }}</span></div>
+    <div class="product-info"><span class="category">{{ product.category }}</span><h2>{{ product.name }}</h2><p>{{ product.description }}</p>
+      <div class="price">{{ product.price | localizedCurrency }}</div><div class="stock">@if (product.stock > 0) { <span>{{ 'products.available' | translate:{count: product.stock} }}</span> } @else { <span class="out">{{ 'products.outOfStock' | translate }}</span> }</div>
+      <button class="cart-btn" [disabled]="product.stock === 0" (click)="addToCart(product)">🛒 {{ 'products.addToCart' | translate }}</button>
+    </div></div>
+} @empty { <div class="no-products"><h2>{{ 'products.noProducts' | translate }}</h2><p>{{ 'products.tryAnother' | translate }}</p></div> }</section></div>

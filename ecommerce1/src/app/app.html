@@ -1,0 +1,24 @@
+<header class="navbar">
+  <div class="logo">🛒 ShopZone</div>
+  <nav>
+    <a routerLink="/home">{{ 'nav.home' | translate }}</a>
+    <a routerLink="/products">{{ 'nav.products' | translate }}</a>
+    @if (authService.currentUser()) {
+      <a routerLink="/cart">🛒 {{ 'nav.cart' | translate }}</a>
+      @if (authService.isAdmin()) { <a routerLink="/admin">⚙️ {{ 'nav.admin' | translate }}</a> }
+      <button (click)="logout()">{{ 'nav.logout' | translate }}</button>
+    } @else {
+      <a routerLink="/login">{{ 'nav.login' | translate }}</a>
+      <a routerLink="/signup">{{ 'nav.signup' | translate }}</a>
+    }
+    <label class="language-picker">
+      <span>{{ 'language.label' | translate }}</span>
+      <select [value]="localeService.locale()" (change)="setLocale($any($event.target).value)">
+        <option value="en-IN">{{ 'language.english' | translate }}</option>
+        <option value="hi-IN">{{ 'language.hindi' | translate }}</option>
+      </select>
+    </label>
+  </nav>
+</header>
+<main><router-outlet /></main>
+<app-footer />
